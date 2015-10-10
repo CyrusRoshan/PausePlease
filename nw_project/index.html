@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Pause Please</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+		<script type="text/javascript" src="js/angular.min.js"></script>
+		<script type="text/javascript" src="js/doStuff.js"></script>
+		<script type="text/javascript" src="js/angularStuff.js"></script>
+	</head>
+	<body ng-app="angApp" ng-controller="ctrl as ctrl">
+		<div class="header">
+			<div class="logo">
+				<img src="images/logo.svg">
+			</div>
+			<div class="button">
+				<div ng-class="ctrl.state">
+					{{ctrl.state}}
+				</div>
+			</div>
+		</div>
+		<div class="content">
+			<div class="infoBox" ng-repeat="info in ctrl.infos">
+				<div class="infoTitle" ng-class="{'warning': info.warning}">
+					{{info.title}}
+				</div>
+				<div class="infoContent" ng-class="{'warning': info.warning}">
+					{{info.content}}
+				</div>
+			</div>
+		</div>
+		<div class="footer">
+			<div class="button">
+				settings
+			</div>
+		</div>
+	</body>
+</html>

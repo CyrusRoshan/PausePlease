@@ -1,0 +1,103 @@
+//@import url(http://fonts.googleapis.com/css?family=Lato:300);
+//@import url(http://fonts.googleapis.com/css?family=Raleway:200,300);
+
+html{
+	background-color: white;
+	height: 100%;
+	position: relative;
+	width: 400px;
+}
+
+body{
+	margin: 0px;
+	display: block;
+	font-family: raleway;
+	font-weight: 100;
+	width: 100%;
+	min-height: 100%;
+}
+
+a{
+	text-decoration: none;
+}
+
+button{
+	border: 0;
+}
+
+.header{
+	float: left;
+	width: 400px;
+	height: 100px;
+	display: inline-block;
+	.logo{
+		width: 100px;
+		float: left;
+		display: none;
+		img{
+			width: 100%;
+		}
+	}
+	.button{
+		float: left;
+		line-height: 100px;
+		height: 100px;
+		font-size: 40px;
+		text-align: center;
+		//width: 300px;
+		width: 400px;
+		color: #424242;
+		background-color: #BDBDBD;
+		text-transform: uppercase;
+	}
+	.enabled{
+		background-color: #81C784;
+		color: #1B5E20;
+	}
+}
+
+.content{
+	float: left;
+	width: 360px;
+	display: inline-block;
+	background-color: #FFE082;
+	padding: 20px;
+	padding-bottom: 0px;
+	.infoBox{
+		width: 100%;
+		float: left;
+
+		.infoTitle{
+			float: left;
+			font-size: 20px;
+			color: #cc5900;
+		}
+		.infoContent{
+			margin-left: 5px;
+			float: left;
+			font-size: 20px;
+			color: #752800;
+			float: right;
+		}
+		.warning{
+			color: red;
+			font-weight: bold;
+		}
+		margin-bottom: 20px;
+	}
+}
+.footer{
+	width: 400px;
+	.button{
+		float: left;
+		line-height: 50px;
+		height: 50px;
+		font-size: 30px;
+		text-align: center;
+		//width: 300px;
+		width: 400px;
+		color: #e5e5e5;
+		background-color: #8b8b8b;
+		text-transform: uppercase;
+	}
+}
