@@ -23,23 +23,20 @@
 			</div>
 			<div class="content">
 				<div class="infoBox" ng-repeat="info in ctrl.infos">
-					<div class="infoTitle" ng-class="{'warning': info.warning}">
+					<div class="infoTitle" ng-class="{'warning': info.warning()}">
 						{{info.title}}
 					</div>
-					<div class="infoContent" ng-class="{'warning': info.warning}">
-						{{info.content}}
+					<div class="infoContent" ng-class="{'warning': info.warning()}">
+						{{info.content()}}
+					</div>
+					<div class="infoContent" ng-class="{'warning': info.warning()}">
+						{{info.content2()}}
 					</div>
 				</div>
 			</div>
 			<div class="footer">
-				<div class="button" id="settings" ng-click="getCal()">
+				<div class="button" id="settings">
 					settings
-				</div>
-				<div ng-repeat="event in events">
-					{{event.name}} at {{event.time}}
-				</div>
-				<div>
-					{{nextEventTime()}}
 				</div>
 			</div>
 		</div>

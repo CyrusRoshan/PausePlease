@@ -1,21 +1,24 @@
 angular.module('angApp', [])
-	.controller('ctrl', ['$scope', function($scope) {
+	.controller('ctrl', ['$scope', function($scope, $watch) {
 		this.state = "disabled";
 		this.infos = [
 			{
 				title:'Time Sitting:',
-				content: '0 hrs, 0 min, 0 sec',
-				warning: false,
+				content: function(){ return '0 hrs, 0 min, 0 sec'},
+				content2: function(){},
+				warning: function(){return false},
 			},
 			{
 				title:'Time Focused:',
-				content: '0 hrs, 0 min, 0 sec',
-				warning: false,
+				content: function(){ return '0 hrs, 0 min, 0 sec'},
+				content2: function(){},
+				warning: function(){return false},
 			},
 			{
-				title:'Next Event In:',
-				content: '0 hrs, 0 min, 0 sec',
-				warning: false,
+				title:'Next Event:',
+				content: function(){return $scope.nextEventTime().name + ", in"},
+				content2: function(){return $scope.nextEventTime().time},
+				warning: function(){return ($scope.nextEventTime().timeLeft < 600000)}
 			},
 		]
 
@@ -49,13 +52,22 @@ angular.module('angApp', [])
 
 		$scope.nextEventTime = function(){
 			nextTime = $scope.getCal()[0].time;
+			eventName = $scope.getCal()[0].name;
 			for(i = 1; i < $scope.getCal().length; i++){
-				console.log(i);
 				if($scope.getCal()[i].time < nextTime && new Date().getTime() < $scope.getCal()[i].time){
 					nextTime = $scope.getCal()[i].time;
+					eventName = $scope.getCal()[i].name;
 				}
 			}
-			return (nextTime - new Date().getTime());
+			ms = (nextTime - new Date().getTime());
+			eventTime = parseInt(ms/1000/60/60 % 24) + " hrs, " + parseInt(ms/1000/60 % 60) + " min, " + parseInt(ms/1000 % 60) + " sec";
+			eventObject = {
+				time: eventTime,
+				name: eventName,
+				timeLeft: (nextTime - new Date().getTime())
+			}
+			return eventObject;
 		}
 
+		setInterval(function(){$scope.nextEventTime(); $scope.$digest()}, 1000);
 	}]);
