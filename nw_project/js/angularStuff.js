@@ -27,7 +27,6 @@ angular.module('angApp', [])
 		$scope.lastChecked = 0;
 		$scope.beenChecked = false;
 
-
 		$scope.getCal = function(){
 			if($scope.lastChecked < new Date().getTime() - 60000){
 				$scope.lastChecked = new Date().getTime();
@@ -55,6 +54,7 @@ angular.module('angApp', [])
 			return $scope.events;
 		}
 
+		$scope.triggerValue = 0;
 		$scope.stateSwitch = function(){
 			if($scope.state){
 				$scope.state = false;
@@ -83,5 +83,34 @@ angular.module('angApp', [])
 			return eventObject;
 		}
 
-		setInterval(function(){$scope.nextEventTime(); $scope.$digest()}, 1000);
+		$scope.checkValues = function(){
+			jQuery.ajax({
+				url: "https://api.particle.io/v1/devices/1e003b000c47343233323032/leftSensor?access_token=80e4e952b6d84e64327c67f1985844d3e19d5f17",
+				type: "GET",
+				dataType: "json",
+				async: true,
+				success: function (data) {
+					console.log(data.result);
+					if(data.result < $scope.triggerValue + 50){
+						$.post("http://localhost:8080/page2", {name: i++}, function(data, status){
+							alert("Data: " + data + "\nStatus: " + status);
+						});
+					}
+				}
+			});
+		}
+
+		$scope.calibrate = function(){
+			jQuery.ajax({
+				url: "https://api.particle.io/v1/devices/1e003b000c47343233323032/leftSensor?access_token=80e4e952b6d84e64327c67f1985844d3e19d5f17",
+				type: "GET",
+				dataType: "json",
+				async: true,
+				success: function (data) {
+					$scope.triggerValue = data.result;
+					console.log("-------------" + $scope.triggerValue);
+				}
+			})};
+
+		setInterval(function(){$scope.nextEventTime(); $scope.$digest(); $scope.checkValues()}, 1000);
 	}]);

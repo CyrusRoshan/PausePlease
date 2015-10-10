@@ -20,6 +20,7 @@ function handleRequest(request, response){
 		else{
 			on = true;
 		}
+		robot.typeString("k");
 		console.log(on);
 		//Disptach
 		dispatcher.dispatch(request, response);
