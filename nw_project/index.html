@@ -32,8 +32,11 @@
 				</div>
 			</div>
 			<div class="footer">
-				<div class="button" id="settings">
-					settings
+				<div class="button" id="settings" ng-click="getCal()">
+					{{getCal()}} {{events}} settings
+				</div>
+				<div ng-repeat="event in events">
+					{{event.name}} at {{event.time}}
 				</div>
 			</div>
 		</div>
