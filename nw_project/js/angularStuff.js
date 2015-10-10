@@ -32,7 +32,7 @@ angular.module('angApp', [])
 					for(i = 1, j = 0; i < data.contents.split("<title type='html'>").length; i++){
 						$scope.events[i-1] = {
 							name: data.contents.split("<title type='html'>")[i].split("</title>")[0],
-							time: Date.parse(data.contents.split("<title type='html'>")[i].split("</title>")[1].split("When: ")[1].split("&amp;")[0].split(" to")[0].slice(0, - 2))
+							time: Date.parse(data.contents.split("<title type='html'>")[i].split("</title>")[1].split("When: ")[1].split("&amp;")[0].split(" to")[0].slice(0, - 2)+":00")
 						};
 						if(data.contents.split("<title type='html'>")[i].split("</title>")[1].split("When: ")[1].split("&amp;")[0].split(" to")[0].slice(-2) == 'pm'){
 							$scope.events[i-1].time += 43200000;
@@ -44,11 +44,18 @@ angular.module('angApp', [])
 			});
 			$scope.events.sort(function(a,b) { return a.name - b.name; });
 
-			for(i = 0; i<$scope.events.length; i++){
-				console.log(i);
-			console.log(new Date($scope.events[i].time).toLocaleString());
-			}
-			console.log($scope.events);
 			return $scope.events;
 		}
+
+		$scope.nextEventTime = function(){
+			nextTime = $scope.getCal()[0].time;
+			for(i = 1; i < $scope.getCal().length; i++){
+				console.log(i);
+				if($scope.getCal()[i].time < nextTime && new Date().getTime() < $scope.getCal()[i].time){
+					nextTime = $scope.getCal()[i].time;
+				}
+			}
+			return (nextTime - new Date().getTime());
+		}
+
 	}]);
