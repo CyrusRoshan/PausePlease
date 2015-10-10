@@ -1,8 +1,10 @@
 html {
   background-color: white;
+  -webkit-user-select: none;
   height: 100%;
   position: relative;
-  width: 400px; }
+  width: 400px;
+  height: 300px; }
 
 body {
   margin: 0px;
@@ -69,7 +71,8 @@ button {
       font-weight: bold; }
 
 .footer {
-  width: 400px; }
+  width: 400px;
+  display: inline-block; }
   .footer .button {
     float: left;
     line-height: 50px;

@@ -1,5 +1,16 @@
 {
-  "name": "nw-demo",
-  "version": "0.0.1",
-  "main": "index.html"
+	"name": "Pause Please",
+	"description": "Never miss a moment again",
+	"version": "0.1",
+	"main": "index.html",
+	"window": {
+		"frame": true,
+		"toolbar": false,
+		"resizeable": false,
+		"position": "center",
+		"width": 400,
+		"height": 300,
+		"min_width": 220,
+		"min_height": 220
+	}
 }
