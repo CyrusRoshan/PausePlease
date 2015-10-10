@@ -1,16 +1,15 @@
 {
-	"name": "Pause Please",
+	"name": "PausePlease",
 	"description": "Never miss a moment again",
-	"version": "0.1",
+	"version": "0.0.1",
 	"main": "index.html",
 	"window": {
 		"frame": true,
-		"toolbar": true,
-		//"toolbar": false,
+		"toolbar": false,
 		"resizeable": false,
 		"position": "center",
 		"width": 400,
-		"height": 300,
+		"height": 327,
 		"min_width": 220,
 		"min_height": 220
 	}

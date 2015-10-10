@@ -23,31 +23,45 @@ angular.module('angApp', [])
 		]
 
 		$scope.urlValue = 'https://www.google.com/calendar/feeds/i2jntos0susho4i1kf0jl988ls%40group.calendar.google.com/public/basic'
-
 		$scope.events = [];
+		$scope.lastChecked = 0;
+		$scope.beenChecked = false;
+
 
 		$scope.getCal = function(){
-			$.ajax({
-				type: 'GET',
-				url: 'http://whateverorigin.org/get?url=' + $scope.urlValue + '&callback=?',
-				dataType: 'json',
-				success: function(data) {
-					for(i = 1, j = 0; i < data.contents.split("<title type='html'>").length; i++){
-						$scope.events[i-1] = {
-							name: data.contents.split("<title type='html'>")[i].split("</title>")[0],
-							time: Date.parse(data.contents.split("<title type='html'>")[i].split("</title>")[1].split("When: ")[1].split("&amp;")[0].split(" to")[0].slice(0, - 2)+":00")
-						};
-						if(data.contents.split("<title type='html'>")[i].split("</title>")[1].split("When: ")[1].split("&amp;")[0].split(" to")[0].slice(-2) == 'pm'){
-							$scope.events[i-1].time += 43200000;
+			if($scope.lastChecked < new Date().getTime() - 60000){
+				$scope.lastChecked = new Date().getTime();
+				$.ajax({
+					type: 'GET',
+					url: 'http://whateverorigin.org/get?url=' + $scope.urlValue + '&callback=?',
+					dataType: 'json',
+					success: function(data) {
+						for(i = 1, j = 0; i < data.contents.split("<title type='html'>").length; i++){
+							$scope.events[i-1] = {
+								name: data.contents.split("<title type='html'>")[i].split("</title>")[0],
+								time: Date.parse(data.contents.split("<title type='html'>")[i].split("</title>")[1].split("When: ")[1].split("&amp;")[0].split(" to")[0].slice(0, - 2)+":00")
+							};
+							if(data.contents.split("<title type='html'>")[i].split("</title>")[1].split("When: ")[1].split("&amp;")[0].split(" to")[0].slice(-2) == 'pm'){
+								$scope.events[i-1].time += 43200000;
+							}
 						}
-					}
-				},
-				data: {},
-				async: false
-			});
-			$scope.events.sort(function(a,b) { return a.name - b.name; });
+					},
+					data: {},
+					async: false
+				});
+				$scope.events.sort(function(a,b) { return a.name - b.name; });
+			}
 
 			return $scope.events;
+		}
+
+		$scope.stateSwitch = function(){
+			if($scope.state){
+				$scope.state = false;
+			}
+			else{
+				$scope.state = true;
+			}
 		}
 
 		$scope.nextEventTime = function(){
