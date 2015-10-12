@@ -4,13 +4,17 @@ angular.module('angApp', [])
 		this.infos = [
 			{
 				title:'Time Sitting:',
-				content: function(){ return '0 hrs, 0 min, 0 sec'},
+				content: function(){
+					ms = (new Date().getTime() - $scope.lastTime);
+					return (parseInt(ms/1000/60/60 % 24) + " hrs, " + parseInt(ms/1000/60 % 60) + " min, " + parseInt(ms/1000 % 60) + " sec");
+
+				},
 				content2: function(){},
 				warning: function(){return false},
 			},
 			{
-				title:'Time Focused:',
-				content: function(){ return '0 hrs, 0 min, 0 sec'},
+				title:'Raw Values',
+				content: function(){ return $scope.leftSensorVal},
 				content2: function(){},
 				warning: function(){return false},
 			},
@@ -26,7 +30,7 @@ angular.module('angApp', [])
 		$scope.events = [];
 		$scope.lastChecked = 0;
 		$scope.beenChecked = false;
-
+		$scope.lastTime = new Date().getTime();
 		$scope.getCal = function(){
 			if($scope.lastChecked < new Date().getTime() - 60000){
 				$scope.lastChecked = new Date().getTime();
@@ -54,13 +58,15 @@ angular.module('angApp', [])
 			return $scope.events;
 		}
 
+		$scope.state = 'enabled';
 		$scope.triggerValue = 0;
 		$scope.stateSwitch = function(){
-			if($scope.state){
-				$scope.state = false;
+			console.log($scope.state);
+			if($scope.state == 'enabled'){
+				$scope.state = 'disabled';
 			}
 			else{
-				$scope.state = true;
+				$scope.state = 'enabled';
 			}
 		}
 
@@ -85,13 +91,15 @@ angular.module('angApp', [])
 
 		$scope.checkValues = function(){
 			jQuery.ajax({
-				url: "https://api.particle.io/v1/devices/1e003b000c47343233323032/leftSensor?access_token=80e4e952b6d84e64327c67f1985844d3e19d5f17",
+				url: "https://api.particle.io/v1/devices/1e003b000c47343233323032/rightSensor?access_token=80e4e952b6d84e64327c67f1985844d3e19d5f17",
 				type: "GET",
 				dataType: "json",
 				async: true,
 				success: function (data) {
+					$scope.leftSensorVal = data.result;
 					console.log(data.result);
-					if(data.result < $scope.triggerValue + 50){
+					if(data.result < $scope.triggerValue + 10){
+						$scope.lastTime = new Date().getTime();
 						$.post("http://localhost:8080/page2", {name: i++}, function(data, status){
 							alert("Data: " + data + "\nStatus: " + status);
 						});
@@ -100,9 +108,10 @@ angular.module('angApp', [])
 			});
 		}
 
+
 		$scope.calibrate = function(){
 			jQuery.ajax({
-				url: "https://api.particle.io/v1/devices/1e003b000c47343233323032/leftSensor?access_token=80e4e952b6d84e64327c67f1985844d3e19d5f17",
+				url: "https://api.particle.io/v1/devices/1e003b000c47343233323032/rightSensor?access_token=80e4e952b6d84e64327c67f1985844d3e19d5f17",
 				type: "GET",
 				dataType: "json",
 				async: true,
